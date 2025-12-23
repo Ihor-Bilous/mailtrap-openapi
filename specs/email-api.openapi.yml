@@ -119,17 +119,17 @@ paths:
           label: .NET
           source: |
             using Mailtrap;
+            using Mailtrap.SendingDomains;
             using Mailtrap.SendingDomains.Requests;
 
-            var client = new MailtrapClient("YOUR_API_KEY");
-            var accountResource = client.Account(accountId);
+            using var mailtrapFactory = new MailtrapClientFactory("YOUR_API_KEY");
+            var client = mailtrapFactory.CreateClient();
 
-            var domainsResource = accountResource.SendingDomains();
+            var domainsResource = client.Account(YOUR_ACCOUNT_ID).SendingDomains();
 
-            var request = new CreateSendingDomainRequest("example.com");
-            var domain = await domainsResource.Create(request);
-
-            Console.WriteLine($"Created domain: {domain.DomainName}");
+            var createDomainRequest = new CreateSendingDomainRequest("example.com");
+            var domain = await domainsResource.Create(createDomainRequest);
+            Console.WriteLine($"Created domain: {domain?.DomainName}");
         - lang: java
           label: Java
           source: |
@@ -150,7 +150,7 @@ paths:
             );
 
             var domain = client.sendingApi().domains()
-                .create(ACCOUNT_ID, request);
+                .create(YOUR_ACCOUNT_ID, request);
 
             System.out.println(domain);
         - lang: shell
@@ -268,10 +268,10 @@ paths:
           source: |
             using Mailtrap;
 
-            var client = new MailtrapClient("YOUR_API_KEY");
-            var accountResource = client.Account(accountId);
+            using var mailtrapFactory = new MailtrapClientFactory("YOUR_API_KEY");
+            var client = mailtrapFactory.CreateClient();
 
-            var domainsResource = accountResource.SendingDomains();
+            var domainsResource = client.Account(YOUR_ACCOUNT_ID).SendingDomains();
 
             var domains = await domainsResource.GetAll();
 
@@ -293,7 +293,7 @@ paths:
                 .createMailtrapClient(config);
 
             var domains = client.sendingApi().domains()
-                .getSendingDomains(ACCOUNT_ID);
+                .getSendingDomains(YOUR_ACCOUNT_ID);
 
             domains.forEach(domain ->
                 System.out.println("Domain: " + domain.getDomainName())
@@ -387,12 +387,11 @@ paths:
           source: |
             using Mailtrap;
 
-            var client = new MailtrapClient("YOUR_API_KEY");
-            var accountResource = client.Account(accountId);
+            using var mailtrapFactory = new MailtrapClientFactory("YOUR_API_KEY");
+            var client = mailtrapFactory.CreateClient();
 
             var domainId = 12345;
-            var domainResource = accountResource.SendingDomain(domainId);
-
+            var domainResource = client.Account(YOUR_ACCOUNT_ID).SendingDomain(domainId);
             var domain = await domainResource.GetDetails();
 
             Console.WriteLine($"Domain: {domain.DomainName}");
@@ -411,7 +410,7 @@ paths:
 
             long domainId = 12345L;
             var domain = client.sendingApi().domains()
-                .getSendingDomain(ACCOUNT_ID, domainId);
+                .getSendingDomain(YOUR_ACCOUNT_ID, domainId);
 
             System.out.println("Domain: " + domain.getDomainName());
         - lang: shell
@@ -503,12 +502,11 @@ paths:
           source: |
             using Mailtrap;
 
-            var client = new MailtrapClient("YOUR_API_KEY");
-            var accountResource = client.Account(accountId);
+            using var mailtrapFactory = new MailtrapClientFactory("YOUR_API_KEY");
+            var client = mailtrapFactory.CreateClient();
 
             var domainId = 12345;
-            var domainResource = accountResource.SendingDomain(domainId);
-
+            var domainResource = client.Account(YOUR_ACCOUNT_ID).SendingDomain(domainId);
             await domainResource.Delete();
 
             Console.WriteLine("Domain deleted successfully");
@@ -527,7 +525,7 @@ paths:
 
             long domainId = 12345L;
             client.sendingApi().domains()
-                .deleteSendingDomain(ACCOUNT_ID, domainId);
+                .deleteSendingDomain(YOUR_ACCOUNT_ID, domainId);
 
             System.out.println("Domain deleted successfully");
         - lang: shell
@@ -635,15 +633,13 @@ paths:
             using Mailtrap;
             using Mailtrap.SendingDomains.Requests;
 
-            var client = new MailtrapClient("YOUR_API_KEY");
-            var accountResource = client.Account(accountId);
+            using var mailtrapFactory = new MailtrapClientFactory("YOUR_API_KEY");
+            var client = mailtrapFactory.CreateClient();
 
             var domainId = 12345;
-            var domainResource = accountResource.SendingDomain(domainId);
+            var domainResource = client.Account(YOUR_ACCOUNT_ID).SendingDomain(domainId);
 
-            var request = new SendingDomainInstructionsRequest(
-                "devops@example.com"
-            );
+            var request = new SendingDomainInstructionsRequest("devops@example.com");
             await domainResource.SendInstructions(request);
 
             Console.WriteLine("Setup instructions sent");
@@ -668,7 +664,7 @@ paths:
 
             client.sendingApi().domains()
                 .sendSendingDomainsSetupInstructions(
-                    ACCOUNT_ID,
+                    YOUR_ACCOUNT_ID,
                     domainId,
                     request
                 );
@@ -809,10 +805,10 @@ paths:
             using Mailtrap;
             using Mailtrap.Suppressions.Models;
 
-            var client = new MailtrapClient("YOUR_API_KEY");
-            var accountResource = client.Account(accountId);
+            using var mailtrapFactory = new MailtrapClientFactory("YOUR_API_KEY");
+            var client = mailtrapFactory.CreateClient();
 
-            var suppressionsResource = accountResource.Suppressions();
+            var suppressionsResource = client.Account(YOUR_ACCOUNT_ID).Suppressions();
 
             // Get all suppressions
             var suppressions = await suppressionsResource.Fetch();
@@ -843,11 +839,11 @@ paths:
 
             // Get all suppressions
             var suppressions = client.sendingApi().suppressions()
-                .search(ACCOUNT_ID, null);
+                .search(YOUR_ACCOUNT_ID, null);
 
             // Or search for specific email
             var filtered = client.sendingApi().suppressions()
-                .search(ACCOUNT_ID, "suppressed@example.com");
+                .search(YOUR_ACCOUNT_ID, "suppressed@example.com");
 
             suppressions.forEach(suppression ->
                 System.out.println("Email: " + suppression.getEmail())
@@ -951,11 +947,11 @@ paths:
           source: |
             using Mailtrap;
 
-            var client = new MailtrapClient("YOUR_API_KEY");
-            var accountResource = client.Account(accountId);
+            using var mailtrapFactory = new MailtrapClientFactory("YOUR_API_KEY");
+            var client = mailtrapFactory.CreateClient();
 
             var suppressionId = "abc123-def456";
-            var suppressionResource = accountResource.Suppression(suppressionId);
+            var suppressionResource = client.Account(YOUR_ACCOUNT_ID).Suppression(suppressionId);
 
             var result = await suppressionResource.Delete();
 
@@ -975,7 +971,7 @@ paths:
 
             String suppressionId = "abc123-def456";
             var result = client.sendingApi().suppressions()
-                .deleteSuppression(ACCOUNT_ID, suppressionId);
+                .deleteSuppression(YOUR_ACCOUNT_ID, suppressionId);
 
             System.out.println("Suppression removed: " + result.getEmail());
         - lang: shell
@@ -1047,8 +1043,13 @@ paths:
           label: .NET
           source: |
             using Mailtrap;
-            var client = new MailtrapClient("YOUR_API_KEY");
-            var templates = await client.Account(accountId).EmailTemplates().GetAll();
+            using var mailtrapFactory = new MailtrapClientFactory("YOUR_API_KEY");
+            var client = mailtrapFactory.CreateClient();
+            var templates = await client.Account(YOUR_ACCOUNT_ID).EmailTemplates().GetAll();
+            foreach (var template in templates)
+            {
+                Console.WriteLine($"Template: {template.Name}, ID: {template.Uuid}");
+            }
         - lang: java
           label: Java
           source: |
@@ -1124,7 +1125,7 @@ paths:
           label: Python
           source: |
             import mailtrap as mt
-            client = mt.MailtrapClient(token="YOUR_API_TOKEN", account_id=ACCOUNT_ID)
+            client = mt.MailtrapClient(token="YOUR_API_TOKEN", account_id=YOUR_ACCOUNT_ID)
             template = client.email_templates_api.templates.create(
                 mt.CreateEmailTemplateParams(
                     name="Welcome Email",
@@ -1151,15 +1152,20 @@ paths:
           label: .NET
           source: |
             using Mailtrap;
-            var client = new MailtrapClient("YOUR_API_TOKEN");
-            var request = new CreateTemplateRequest {
-                Name = "Welcome Email",
-                Subject = "Welcome to {{company_name}}!",
-                Category = "onboarding",
+            using Mailtrap.EmailTemplates.Requests;
+
+            using var mailtrapFactory = new MailtrapClientFactory("YOUR_API_KEY");
+            var client = mailtrapFactory.CreateClient();
+
+            var request = new CreateEmailTemplateRequest(
+                "Welcome Email", // Name
+                "onboarding", // Category
+                "Welcome to {{company_name}}!") // Subject
+            {
                 BodyHtml = "<h1>Welcome {{user_name}}!</h1>",
                 BodyText = "Welcome {{user_name}}!"
             };
-            var template = await client.Account(accountId).Templates().Create(request);
+            var template = await client.Account(YOUR_ACCOUNT_ID).EmailTemplates().Create(request);
         - lang: java
           label: Java
           source: |
