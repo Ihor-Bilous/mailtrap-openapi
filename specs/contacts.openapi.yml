@@ -2078,7 +2078,7 @@ paths:
             var config = new MailtrapConfig.Builder().token("YOUR_API_KEY").build();
             var client = MailtrapClientFactory.createMailtrapClient(config);
             
-            long fieldId = 2L
+            long fieldId = 2L;
             client.contactsApi().contactFields().deleteContactField(accountId, fieldId);
       responses:
         '204':
