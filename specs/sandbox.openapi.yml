@@ -2813,7 +2813,7 @@ paths:
               .Account(YOUR_ACCOUNT_ID)
               .Inbox(inboxId)
               .Message(messageId)
-              .Delete()
+              .Delete();
 
             Console.WriteLine(deletedMessage);
         - lang: java

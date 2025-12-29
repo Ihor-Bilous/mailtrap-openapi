@@ -223,8 +223,8 @@ paths:
           source: |
             using Mailtrap;
 
-            var client = new MailtrapClient("YOUR_API_KEY");
-
+            using var mailtrapFactory = new MailtrapClientFactory("YOUR_API_KEY");
+            var client = mailtrapFactory.CreateClient();
             var accounts = await client.Accounts().GetAll();
 
             foreach (var account in accounts)
