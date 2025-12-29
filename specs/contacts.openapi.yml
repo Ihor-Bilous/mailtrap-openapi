@@ -1155,7 +1155,7 @@ paths:
           label: Python
           source: |
             import mailtrap as mt
-            client = mt.MailtrapClient(token="YOUR_API_KEY", account_id="YOUR_ACCOUNT_ID"`)
+            client = mt.MailtrapClient(token="YOUR_API_KEY", account_id="YOUR_ACCOUNT_ID")
 
             import_id = 12345
 

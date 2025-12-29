@@ -685,7 +685,7 @@ paths:
             account_id = "YOUR_ACCOUNT_ID"
 
             client = mt.MailtrapClient(token="YOUR_API_KEY")
-            resources = client.general_api.permissions.get_resources(access_id)
+            resources = client.general_api.permissions.get_resources(account_id)
             print(resources)
         - lang: csharp
           label: C#
