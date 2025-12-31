@@ -1278,12 +1278,12 @@ paths:
           source: |
             import mailtrap as mt
 
-            email_template_id = "TEMPLATE_ID"
+            email_template_id = "YOUR_TEMPLATE_ID"
 
             client = mt.MailtrapClient(token="YOUR_API_TOKEN", account_id="YOUR_ACCOUNT_ID")
             template = client.email_templates_api.templates.update(
-                email_template_id,
-                mt.UpdateEmailTemplateParams(
+                template_id=email_template_id,
+                template_params=mt.UpdateEmailTemplateParams(
                     name="Edited Welcome Email",
                     subject="Edited Welcome to {{company_name}}!",
                     category="onboarding",
@@ -1368,10 +1368,12 @@ paths:
           source: |
             import mailtrap as mt
 
-            email_template_id = "TEMPLATE_ID"
+            email_template_id = "YOUR_TEMPLATE_ID"
 
             client = mt.MailtrapClient(token="YOUR_API_TOKEN", account_id="YOUR_ACCOUNT_ID")
-            deleted_template = client.email_templates_api.templates.delete(email_template_id)
+            deleted_template = client.email_templates_api.templates.delete(
+              template_id=email_template_id
+            )
         - lang: shell
           label: cURL
           source: |

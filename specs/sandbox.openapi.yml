@@ -811,7 +811,7 @@ paths:
                 token="YOUR_API_TOKEN",
                 account_id="YOUR_ACCOUNT_ID"
             )
-
+            project_id = 12345
             inbox = client.testing_api.inboxes.create(
                 project_id=project_id,
                 inbox_params=mt.InboxParams(name="My Test Inbox")
@@ -2998,6 +2998,7 @@ paths:
                 account_id="YOUR_ACCOUNT_ID"
             )
 
+            inbox_id = 12345
             messages = client.testing_api.messages.get_list(
                 inbox_id=inbox_id
             )
